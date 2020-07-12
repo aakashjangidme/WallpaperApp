@@ -74,7 +74,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 child: Text('Categories',
                     style: TextStyle(
-                      fontSize: 36,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                     )),
               ),
@@ -152,6 +152,7 @@ class _HomeViewState extends State<HomeView> {
                 color: Colors.white,
               ),
             ),
+
             ListTile(
               leading: Icon(
                 Icons.home,

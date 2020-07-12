@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:wallpaperflutter/view/image_view.dart';
-
+import 'progress_indicator_circular.dart';
 import '../models/data_model.dart';
 
 Widget wallPaper(context) {
@@ -14,7 +14,10 @@ Widget wallPaper(context) {
         if (snapshot.connectionState == ConnectionState.waiting)
           return Container(
               height: MediaQuery.of(context).size.height * 0.80,
-              child: Center(child: CircularProgressIndicator()));
+              child: Center(
+                  child: ProgressIndicatorDemo(
+                type: ProgressIndicatorDemoType.circular,
+              )));
         else if (snapshot.data != null)
           return StaggeredGridView.countBuilder(
             shrinkWrap: true,
@@ -26,10 +29,12 @@ Widget wallPaper(context) {
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ImageView(imgPath: data.src.portrait)));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ImageView(imgPath: data.src.portrait),
+                    ),
+                  );
                 },
                 child: Hero(
                   tag: data.src.small,
@@ -55,14 +60,22 @@ Widget wallPaper(context) {
             mainAxisSpacing: 2.0,
             crossAxisSpacing: 2.0,
           );
-        else
+        else if (snapshot.data == null) {
           return Container(
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
               color: Colors.white,
             ),
-            child: Center(child: CircularProgressIndicator()),
+            child: Center(
+                child: ProgressIndicatorDemo(
+              type: ProgressIndicatorDemoType.circular,
+            )),
           );
+        }
+
+        return Container(
+          child: Center(child: Text('Null')),
+        );
       },
     ),
   );
