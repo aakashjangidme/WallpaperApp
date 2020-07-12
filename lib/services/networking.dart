@@ -18,7 +18,7 @@ Future<PhotoList> getCuratedImages() async {
 }
 
 Future<PhotoList> getSearchImages(String searchQuery) async {
-  print('Calling uri: $apiUrl');
+  print('Calling uri: ');
   final response = await get(
       'https://api.pexels.com/v1/search?query=$searchQuery&per_page=50&page=1',
       headers: {'Authorization': apiKEY});

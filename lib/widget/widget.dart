@@ -7,12 +7,14 @@ import '../models/data_model.dart';
 
 Widget wallPaper(context) {
   return Container(
-    // height: 700,
+//    height: 700,
     child: FutureBuilder(
       future: context,
       builder: (BuildContext context, AsyncSnapshot<PhotoList> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting)
-          return Center(child: CircularProgressIndicator());
+          return Container(
+              height: MediaQuery.of(context).size.height * 0.80,
+              child: Center(child: CircularProgressIndicator()));
         else if (snapshot.data != null)
           return StaggeredGridView.countBuilder(
             shrinkWrap: true,
@@ -55,8 +57,11 @@ Widget wallPaper(context) {
           );
         else
           return Container(
-            alignment: Alignment.center,
-            child: CircularProgressIndicator(),
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Center(child: CircularProgressIndicator()),
           );
       },
     ),

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:wallpaperflutter/view/categories_screen.dart';
+import 'package:wallpaperflutter/view/categories_view.dart';
 
 class CategoriesTile extends StatelessWidget {
   final String imgUrls, category;

@@ -5,9 +5,9 @@ import 'package:wallpaperflutter/widget/widget.dart';
 import '../services/networking.dart';
 
 class SearchView extends StatefulWidget {
-  final String search;
-
-  SearchView({@required this.search});
+//  final String search;
+//
+//  SearchView({@required this.search});
 
   @override
   _SearchViewState createState() => _SearchViewState();
@@ -15,10 +15,11 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
   TextEditingController searchController = new TextEditingController();
+  String text;
 
   @override
   void initState() {
-    searchController.text = widget.search;
+    text = searchController.text;
     super.initState();
   }
 
@@ -63,7 +64,9 @@ class _SearchViewState extends State<SearchView> {
                     )),
                     InkWell(
                         onTap: () {
-                          getSearchImages(searchController.text);
+                          setState(() {
+                            text = searchController.text;
+                          });
                         },
                         child: Container(child: Icon(Icons.search)))
                   ],
@@ -72,7 +75,7 @@ class _SearchViewState extends State<SearchView> {
               SizedBox(
                 height: 30,
               ),
-              wallPaper(getSearchImages(searchController.text)),
+              wallPaper(getSearchImages(text)),
             ],
           ),
         ),

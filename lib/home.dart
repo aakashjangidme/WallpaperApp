@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wallpaperflutter/data/data.dart';
 import 'package:wallpaperflutter/view/search_view.dart';
+import 'package:wallpaperflutter/view/settings_view.dart';
 import 'package:wallpaperflutter/widget/categories_tile.dart';
 import 'package:wallpaperflutter/widget/widget.dart';
 
@@ -42,77 +43,50 @@ class _HomeViewState extends State<HomeView> {
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         brightness: Brightness.light,
+        actions: <Widget>[
+          IconButton(
+            icon: new Icon(Icons.search),
+            tooltip: 'Air it',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchView(),
+                ),
+              );
+            },
+          )
+        ],
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
                 height: 16,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Color(0xfff5f8fd),
-                  borderRadius: BorderRadius.circular(30),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 8.0,
+                  left: 24,
                 ),
-                margin: EdgeInsets.symmetric(horizontal: 24),
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: TextField(
-                      controller: searchController,
-                      decoration: InputDecoration(
-                          hintText: "search wallpapers",
-                          border: InputBorder.none),
-                    )),
-                    InkWell(
-                        onTap: () {
-                          if (searchController.text != "") {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SearchView(
-                                          search: searchController.text,
-                                        )));
-                          }
-                        },
-                        child: Container(child: Icon(Icons.search)))
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Made By ",
+                child: Text('Categories',
                     style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 12,
-                        fontFamily: 'Overpass'),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _launchURL("https://www.linkedin.com/in/aakashjangidme/");
-                    },
-                    child: Container(
-                        child: Text(
-                      "Aakash Jangid",
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 12,
-                          fontFamily: 'Overpass'),
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
                     )),
-                  ),
-                ],
+              ),
+              Divider(
+                thickness: 1,
               ),
               SizedBox(
                 height: 16,
               ),
+//              SizedBox(
+//                height: 16,
+//              ),
               Container(
                 height: 80,
                 child: ListView.builder(
@@ -130,7 +104,7 @@ class _HomeViewState extends State<HomeView> {
               ),
               wallPaper(getCuratedImages()),
               SizedBox(
-                height: 24,
+                height: 16,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -179,22 +153,134 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
             ListTile(
-              title: Text('Home'),
+              leading: Icon(
+                Icons.home,
+                color: Colors.black87,
+              ),
+              title: Text(
+                'Home',
+                style: TextStyle(fontSize: 18),
+              ),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomeView()));
+//                Navigator.pop(context);
               },
             ),
             ListTile(
-              title: Text('Settings'),
+              leading: Icon(
+                Icons.settings,
+                color: Colors.black87,
+              ),
+              title: Text(
+                'Settings',
+                style: TextStyle(fontSize: 18),
+              ),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsView()));
               },
+            ),
+            Divider(
+              thickness: 1,
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.share,
+                color: Colors.black87,
+              ),
+              title: Text(
+                'Share',
+                style: TextStyle(fontSize: 18),
+              ),
+              onTap: () {
+                //TODO
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.rate_review,
+                color: Colors.black87,
+              ),
+              title: Text(
+                'Rate',
+                style: TextStyle(fontSize: 18),
+              ),
+              onTap: () {
+                //TODO
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.contact_mail,
+                color: Colors.black87,
+              ),
+              title: Text(
+                'Contact Us',
+                style: TextStyle(fontSize: 18),
+              ),
+              onTap: () {
+                //TODO
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.update,
+                color: Colors.black87,
+              ),
+              title: Text(
+                'Check for Updates',
+                style: TextStyle(fontSize: 18),
+              ),
+              onTap: () {
+                //TODO
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.lock,
+                color: Colors.black87,
+              ),
+              title: Text(
+                'Privacy Policy',
+                style: TextStyle(fontSize: 18),
+              ),
+              onTap: () {
+                //TODO
+              },
+            ),
+            Divider(
+              thickness: 1,
+            ),
+
+            //made by
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, top: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Made By ",
+                    style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 14,
+                        fontFamily: 'Overpass'),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _launchURL("https://www.linkedin.com/in/aakashjangidme/");
+                    },
+                    child: Container(
+                        child: Text(
+                      "Aakash Jangid",
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 14,
+                          fontFamily: 'Overpass'),
+                    )),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
