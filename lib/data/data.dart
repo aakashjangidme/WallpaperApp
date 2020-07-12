@@ -1,22 +1,20 @@
 import 'package:wallpaperflutter/models/categories_model.dart';
 
-String apiKEY = "563492ad6f91700001000001f3da63836d2e4ce3a37dad119cd60bc7";
-
 List<CategoriesModel> getCategories() {
   List<CategoriesModel> categories = new List();
   CategoriesModel categoriesModel = new CategoriesModel();
 
   //
   categoriesModel.imgUrl =
-      "https://images.pexels.com/photos/545008/pexels-photo-545008.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500";
-  categoriesModel.categoryName = "Street Art";
+      "https://images.pexels.com/photos/3573555/pexels-photo-3573555.jpeg?cs=srgb&dl=cloth-with-artistic-design-3573555.jpg&fm=jpg";
+  categoriesModel.categoryName = "Abstract";
   categories.add(categoriesModel);
   categoriesModel = new CategoriesModel();
 
   //
   categoriesModel.imgUrl =
-      "https://images.pexels.com/photos/704320/pexels-photo-704320.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500";
-  categoriesModel.categoryName = "Wild Life";
+      "https://images.pexels.com/photos/161154/stained-glass-spiral-circle-pattern-161154.jpeg?cs=srgb&dl=worms-eye-view-of-spiral-stained-glass-decors-through-the-161154.jpg&fm=jpg";
+  categoriesModel.categoryName = "Art";
   categories.add(categoriesModel);
   categoriesModel = new CategoriesModel();
 

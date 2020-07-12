@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Roboto',
 //        primaryColor: Colors.white,
       ),
-      home: Home(),
+      home: HomeView(),
     );
   }
 }

@@ -1,66 +1,23 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:convert';
+import 'package:wallpaperflutter/data/data.dart';
+import 'package:wallpaperflutter/view/search_view.dart';
+import 'package:wallpaperflutter/widget/categories_tile.dart';
 import 'package:wallpaperflutter/widget/widget.dart';
 
-import 'data/data.dart';
 import 'models/categories_model.dart';
-import 'models/photos_model.dart';
-import 'view/categories_screen.dart';
-import 'view/search_view.dart';
+import 'services/networking.dart';
 
-class Home extends StatefulWidget {
+class HomeView extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeViewState extends State<HomeView> {
   List<CategoriesModel> categories = new List();
 
-  int noOfImageToLoad = 30;
-  List<PhotosModel> photos = new List();
-
-  getTrendingWallpaper() async {
-    await http.get(
-        "https://api.pexels.com/v1/curated?per_page=$noOfImageToLoad&page=1",
-        headers: {"Authorization": apiKEY}).then((value) {
-      print(value.body);
-
-      Map<String, dynamic> jsonData = jsonDecode(value.body);
-      jsonData["photos"].forEach((element) {
-        print(element);
-        PhotosModel photosModel = new PhotosModel();
-        photosModel = PhotosModel.fromMap(element);
-        photos.add(photosModel);
-        print(photosModel.toString() + "  " + photosModel.src.portrait);
-      });
-
-      setState(() {});
-    });
-  }
-
   TextEditingController searchController = new TextEditingController();
-
-  ScrollController _scrollController = new ScrollController();
-
-  @override
-  void initState() {
-    //getWallpaper();
-    getTrendingWallpaper();
-    categories = getCategories();
-    super.initState();
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        noOfImageToLoad = noOfImageToLoad + 30;
-        getTrendingWallpaper();
-      }
-    });
-  }
 
   _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -68,6 +25,13 @@ class _HomeState extends State<Home> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    categories = getCategories(); //init the get categories
   }
 
   @override
@@ -160,11 +124,11 @@ class _HomeState extends State<Home> {
                       /// Create List Item tile
                       return CategoriesTile(
                         imgUrls: categories[index].imgUrl,
-                        categorie: categories[index].categoryName,
+                        category: categories[index].categoryName,
                       );
                     }),
               ),
-              wallPaper(photos, context),
+              wallPaper(getCuratedImages()),
               SizedBox(
                 height: 24,
               ),
@@ -200,101 +164,40 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class CategoriesTile extends StatelessWidget {
-  final String imgUrls, categorie;
-
-  CategoriesTile({@required this.imgUrls, @required this.categorie});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CategoriesScreen(
-                      category: categorie,
-                    )));
-      },
-      child: Container(
-        margin: EdgeInsets.only(right: 8),
-        child: kIsWeb
-            ? Column(
-                children: <Widget>[
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: kIsWeb
-                          ? Image.network(
-                              imgUrls,
-                              height: 50,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            )
-                          : CachedNetworkImage(
-                              imageUrl: imgUrls,
-                              height: 50,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            )),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Container(
-                      width: 100,
-                      alignment: Alignment.center,
-                      child: Text(
-                        categorie,
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Overpass'),
-                      )),
-                ],
-              )
-            : Stack(
-                children: <Widget>[
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: kIsWeb
-                          ? Image.network(
-                              imgUrls,
-                              height: 50,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            )
-                          : CachedNetworkImage(
-                              imageUrl: imgUrls,
-                              height: 50,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            )),
-                  Container(
-                    height: 50,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.black26,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  Container(
-                      height: 50,
-                      width: 100,
-                      alignment: Alignment.center,
-                      child: Text(
-                        categorie ?? "Yo Yo",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Overpass'),
-                      ))
-                ],
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: brandName(),
+              decoration: BoxDecoration(
+                color: Colors.white,
               ),
+            ),
+            ListTile(
+              title: Text('Home'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Settings'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

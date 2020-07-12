@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:wallpaperflutter/data/data.dart';
-import 'package:wallpaperflutter/models/photos_model.dart';
 import 'package:wallpaperflutter/widget/widget.dart';
+
+import '../services/networking.dart';
 
 class SearchView extends StatefulWidget {
   final String search;
@@ -16,31 +14,10 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  List<PhotosModel> photos = new List();
   TextEditingController searchController = new TextEditingController();
-
-  getSearchWallpaper(String searchQuery) async {
-    await http.get(
-        "https://api.pexels.com/v1/search?query=$searchQuery&per_page=30&page=1",
-        headers: {"Authorization": apiKEY}).then((value) {
-      //print(value.body);
-
-      Map<String, dynamic> jsonData = jsonDecode(value.body);
-      jsonData["photos"].forEach((element) {
-        //print(element);
-        PhotosModel photosModel = new PhotosModel();
-        photosModel = PhotosModel.fromMap(element);
-        photos.add(photosModel);
-        //print(photosModel.toString()+ "  "+ photosModel.src.portrait);
-      });
-
-      setState(() {});
-    });
-  }
 
   @override
   void initState() {
-    getSearchWallpaper(widget.search);
     searchController.text = widget.search;
     super.initState();
   }
@@ -86,7 +63,7 @@ class _SearchViewState extends State<SearchView> {
                     )),
                     InkWell(
                         onTap: () {
-                          getSearchWallpaper(searchController.text);
+                          getSearchImages(searchController.text);
                         },
                         child: Container(child: Icon(Icons.search)))
                   ],
@@ -95,7 +72,7 @@ class _SearchViewState extends State<SearchView> {
               SizedBox(
                 height: 30,
               ),
-              wallPaper(photos, context),
+              wallPaper(getSearchImages(searchController.text)),
             ],
           ),
         ),

@@ -1,47 +1,65 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:wallpaperflutter/models/photos_model.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:wallpaperflutter/view/image_view.dart';
 
-Widget wallPaper(List<PhotosModel> listPhotos, BuildContext context) {
+import '../models/data_model.dart';
+
+Widget wallPaper(context) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 16),
-    child: GridView.count(
-        crossAxisCount: 2,
-        childAspectRatio: 0.6,
-        physics: ClampingScrollPhysics(),
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(4.0),
-        mainAxisSpacing: 6.0,
-        crossAxisSpacing: 6.0,
-        children: listPhotos.map((PhotosModel photoModel) {
-          return GridTile(
-              child: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ImageView(imgPath: photoModel.src.portrait)));
+    // height: 700,
+    child: FutureBuilder(
+      future: context,
+      builder: (BuildContext context, AsyncSnapshot<PhotoList> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting)
+          return Center(child: CircularProgressIndicator());
+        else if (snapshot.data != null)
+          return StaggeredGridView.countBuilder(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            crossAxisCount: 4,
+            itemCount: snapshot.data.photos.length,
+            itemBuilder: (BuildContext context, int index) {
+              var data = snapshot.data.photos[index];
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ImageView(imgPath: data.src.portrait)));
+                },
+                child: Hero(
+                  tag: data.src.small,
+                  child: Container(
+                    height: MediaQuery.of(context).size.width * 0.75,
+                    width: MediaQuery.of(context).size.width * 0.50,
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(
+                          data.src.small,
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              );
             },
-            child: Hero(
-              tag: photoModel.src.portrait,
-              child: Container(
-                height: MediaQuery.of(context).size.width * 0.75,
-                width: MediaQuery.of(context).size.width * 0.50,
-//                margin: EdgeInsets.all(8),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: CachedNetworkImage(
-                        imageUrl: photoModel.src.portrait,
-                        placeholder: (context, url) => Container(
-                              color: Color(0xfff5f8fd),
-                            ),
-                        fit: BoxFit.cover)),
-              ),
-            ),
-          ));
-        }).toList()),
+            staggeredTileBuilder: (int index) =>
+                new StaggeredTile.count(2, index.isEven ? 3 : 1.5),
+            mainAxisSpacing: 2.0,
+            crossAxisSpacing: 2.0,
+          );
+        else
+          return Container(
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(),
+          );
+      },
+    ),
   );
 }
 
@@ -51,11 +69,13 @@ Widget brandName() {
     children: <Widget>[
       Text(
         "Wallpaper",
-        style: TextStyle(color: Colors.black87, fontFamily: 'Overpass'),
+        style: TextStyle(
+            color: Colors.black87, fontFamily: 'Overpass', fontSize: 24),
       ),
       Text(
         "Store",
-        style: TextStyle(color: Colors.deepPurple, fontFamily: 'Overpass'),
+        style: TextStyle(
+            color: Colors.deepPurple, fontFamily: 'Overpass', fontSize: 24),
       )
     ],
   );
