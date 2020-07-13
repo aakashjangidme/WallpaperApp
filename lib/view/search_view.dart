@@ -1,13 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wallpaperflutter/widget/widget.dart';
 
 import '../services/networking.dart';
 
 class SearchView extends StatefulWidget {
-//  final String search;
-//
-//  SearchView({@required this.search});
+  ScrollController _controller;
 
   @override
   _SearchViewState createState() => _SearchViewState();
@@ -16,6 +13,7 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   TextEditingController searchController = new TextEditingController();
   String text;
+  ScrollController _controller;
 
   @override
   void initState() {

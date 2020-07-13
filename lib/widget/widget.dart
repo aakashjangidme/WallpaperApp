@@ -2,8 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:wallpaperflutter/view/image_view.dart';
-import 'progress_indicator_circular.dart';
+
 import '../models/data_model.dart';
+import 'progress_indicator_circular.dart';
 
 Widget wallPaper(context) {
   return Container(
@@ -13,11 +14,13 @@ Widget wallPaper(context) {
       builder: (BuildContext context, AsyncSnapshot<PhotoList> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting)
           return Container(
-              height: MediaQuery.of(context).size.height * 0.80,
-              child: Center(
-                  child: ProgressIndicatorDemo(
+            height: MediaQuery.of(context).size.height * 0.80,
+            child: Center(
+              child: ProgressIndicatorDemo(
                 type: ProgressIndicatorDemoType.circular,
-              )));
+              ),
+            ),
+          );
         else if (snapshot.data != null)
           return StaggeredGridView.countBuilder(
             shrinkWrap: true,
@@ -41,7 +44,7 @@ Widget wallPaper(context) {
                   child: Container(
                     height: MediaQuery.of(context).size.width * 0.75,
                     width: MediaQuery.of(context).size.width * 0.50,
-                    margin: EdgeInsets.all(8),
+                    margin: EdgeInsets.all(1),
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: CachedNetworkImageProvider(

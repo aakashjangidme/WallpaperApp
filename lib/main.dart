@@ -6,7 +6,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,10 +14,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: Colors.white,
+        primarySwatch: Colors.purple,
 
         // Define the default font family.
         fontFamily: 'Roboto',
-//        primaryColor: Colors.white,
       ),
       home: HomeView(),
     );

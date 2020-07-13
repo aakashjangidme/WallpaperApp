@@ -1,6 +1,8 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wallpaperflutter/ad_manager.dart';
 import 'package:wallpaperflutter/data/data.dart';
 import 'package:wallpaperflutter/view/search_view.dart';
 import 'package:wallpaperflutter/view/settings_view.dart';
@@ -19,6 +21,7 @@ class _HomeViewState extends State<HomeView> {
   List<CategoriesModel> categories = new List();
 
   TextEditingController searchController = new TextEditingController();
+  BannerAd _bannerAd;
 
   _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -28,11 +31,36 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
+  Future<void> _initAdMob() {
+    return FirebaseAdMob.instance.initialize(appId: AdManager.appId);
+  }
+
+  // TODO: Implement _loadBannerAd()
+  void _loadBannerAd() {
+    _bannerAd
+      ..load()
+      ..show(anchorType: AnchorType.bottom);
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     categories = getCategories(); //init the get categories
+
+    _bannerAd = BannerAd(
+      adUnitId: AdManager.bannerAdUnitId,
+      size: AdSize.banner,
+    );
+    // TODO: Load a Banner Ad
+    _loadBannerAd();
+  }
+
+  @override
+  void dispose() {
+    // TODO: Dispose BannerAd object
+    _bannerAd?.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -67,6 +95,7 @@ class _HomeViewState extends State<HomeView> {
               SizedBox(
                 height: 16,
               ),
+
               Padding(
                 padding: const EdgeInsets.only(
                   top: 8.0,
@@ -78,6 +107,7 @@ class _HomeViewState extends State<HomeView> {
                       fontWeight: FontWeight.bold,
                     )),
               ),
+
               Divider(
                 thickness: 1,
               ),
@@ -221,7 +251,7 @@ class _HomeViewState extends State<HomeView> {
                 style: TextStyle(fontSize: 18),
               ),
               onTap: () {
-                //TODO
+                _launchURL("https://www.linkedin.com/in/aakashjangidme/");
               },
             ),
             ListTile(

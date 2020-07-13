@@ -1,13 +1,14 @@
 import 'dart:typed_data';
 import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:url_launcher/url_launcher.dart';
 //import 'dart:js' as js;
 
 class ImageView extends StatefulWidget {
@@ -21,13 +22,13 @@ class ImageView extends StatefulWidget {
 
 class _ImageViewState extends State<ImageView> {
   var filePath;
+  FlutterToast flutterToast;
 
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    flutterToast = FlutterToast(context);
   }
 
   @override
@@ -40,15 +41,13 @@ class _ImageViewState extends State<ImageView> {
             child: Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              child: kIsWeb
-                  ? Image.network(widget.imgPath, fit: BoxFit.cover)
-                  : CachedNetworkImage(
-                      imageUrl: widget.imgPath,
-                      placeholder: (context, url) => Container(
-                        color: Color(0xfff5f8fd),
-                      ),
-                      fit: BoxFit.cover,
-                    ),
+              child: CachedNetworkImage(
+                imageUrl: widget.imgPath,
+                placeholder: (context, url) => Container(
+                  color: Color(0xfff5f8fd),
+                ),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Container(
@@ -59,65 +58,50 @@ class _ImageViewState extends State<ImageView> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 InkWell(
-                    onTap: () {
-                      if (kIsWeb) {
-                        _launchURL(widget.imgPath);
-//                        js.context.callMethod('downloadUrl',[widget.imgPath]);
-//                        var response = await dio.download(widget.imgPath, "./xx.html");
-                      } else {
-                        _save();
-                      }
-                      //Navigator.pop(context);
-                    },
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
+                  onTap: () {
+                    _save();
+                  },
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color(0xff1C1B1B).withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                      Container(
                           width: MediaQuery.of(context).size.width / 2,
                           height: 50,
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: Color(0xff1C1B1B).withOpacity(0.8),
+                            border: Border.all(color: Colors.white24, width: 1),
                             borderRadius: BorderRadius.circular(40),
+                            gradient: LinearGradient(
+                              colors: [Color(0x36FFFFFF), Color(0x0FFFFFFF)],
+                              begin: FractionalOffset.topLeft,
+                              end: FractionalOffset.bottomRight,
+                            ),
                           ),
-                        ),
-                        Container(
-                            width: MediaQuery.of(context).size.width / 2,
-                            height: 50,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.white24, width: 1),
-                                borderRadius: BorderRadius.circular(40),
-                                gradient: LinearGradient(
-                                    colors: [
-                                      Color(0x36FFFFFF),
-                                      Color(0x0FFFFFFF)
-                                    ],
-                                    begin: FractionalOffset.topLeft,
-                                    end: FractionalOffset.bottomRight)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  "Set Wallpaper",
-                                  style: TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                SizedBox(
-                                  height: 1,
-                                ),
-                                Text(
-                                  kIsWeb
-                                      ? "Image will open in new tab to download"
-                                      : "Image will be saved in gallery",
-                                  style: TextStyle(
-                                      fontSize: 8, color: Colors.white70),
-                                ),
-                              ],
-                            )),
-                      ],
-                    )),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "Set Wallpaper",
+                                style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox(
+                                height: 1,
+                              ),
+                            ],
+                          )),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: 16,
                 ),
@@ -148,23 +132,47 @@ class _ImageViewState extends State<ImageView> {
     await _askPermission();
     var response = await Dio().get(widget.imgPath,
         options: Options(responseType: ResponseType.bytes));
-    final result =
-        await ImageGallerySaver.saveImage(Uint8List.fromList(response.data));
+    final result = await ImageGallerySaver.saveImage(
+      Uint8List.fromList(response.data),
+      quality: 100,
+    );
     print(result);
-    Navigator.pop(context);
+
+    _showToast("$result");
   }
 
   _askPermission() async {
     // You can request multiple permissions at once.
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.storage,
-      Permission.location,
-    ].request();
-    print(statuses[Permission.storage]);
     var status = await Permission.storage.status;
-    if (status.isUndetermined) {
-      // We didn't ask for permission yet.
-      print('not yet');
+    if (!status.isGranted) {
+      PermissionStatus permissionStatus = await Permission.storage.request();
+      print('${permissionStatus.isGranted}');
+    } else {
+      //access
     }
+  }
+
+  _showToast(context) {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.greenAccent,
+      ),
+      child: Wrap(
+        children: <Widget>[
+          SizedBox(
+            width: 12.0,
+          ),
+          Text("$context"),
+        ],
+      ),
+    );
+
+    flutterToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(seconds: 4),
+    );
   }
 }

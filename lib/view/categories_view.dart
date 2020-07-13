@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:wallpaperflutter/services/networking.dart';
 import 'package:wallpaperflutter/widget/widget.dart';
 
@@ -13,6 +12,7 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
+  ScrollController _controller;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -55,7 +55,10 @@ class _ProgressIndicatorDemoState extends State<ProgressIndicatorDemo>
       case ProgressIndicatorDemoType.circular:
         return Column(
           children: [
-            CircularProgressIndicator(value: _animation.value),
+            CircularProgressIndicator(
+              value: _animation.value,
+//              backgroundColor: Colors.purple,
+            ),
           ],
         );
       default:
