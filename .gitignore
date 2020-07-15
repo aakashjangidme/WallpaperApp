@@ -10,6 +10,7 @@
 .history
 .svn/
 key.properties
+key1.jks
 
 
 # IntelliJ related

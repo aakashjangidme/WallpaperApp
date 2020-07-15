@@ -24,11 +24,17 @@ dependencies:
   flutter_html: ^1.0.0
   about: ^1.1.2
   package_info: ^0.4.1
+  flutter_native_splash: ^0.1.9
 
 
 
 
   cupertino_icons: ^0.1.3
+
+flutter_native_splash:
+  image: assets/images/splash.png
+  color: "#F3E5F5"
+  android_disable_fullscreen: true
 
 dev_dependencies:
   flutter_test:
