@@ -12,7 +12,6 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  ScrollController _controller;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:wallpaperflutter/widget/constants.dart';
 
 class PrivacyPolicy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Privacy Policy'),
+        title: Text(
+          'Privacy Policy',
+          style: kAppBarTitleStyle,
+        ),
         elevation: 0,
       ),
       body: SingleChildScrollView(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:wallpaperflutter/widget/constants.dart';
 
 class About extends StatefulWidget {
   @override
@@ -33,7 +34,10 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About'),
+        title: Text(
+          'About',
+          style: kAppBarTitleStyle,
+        ),
         elevation: 0,
       ),
       body: Container(

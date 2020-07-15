@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wallpaperflutter/widget/constants.dart';
 import 'package:wallpaperflutter/widget/widget.dart';
 
 import '../services/networking.dart';
 
 class SearchView extends StatefulWidget {
-  ScrollController _controller;
-
   @override
   _SearchViewState createState() => _SearchViewState();
 }
@@ -13,7 +12,6 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   TextEditingController searchController = new TextEditingController();
   String text;
-  ScrollController _controller;
 
   @override
   void initState() {
@@ -25,7 +23,10 @@ class _SearchViewState extends State<SearchView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: brandName(),
+        title: Text(
+          'Search',
+          style: kAppBarTitleStyle,
+        ),
         elevation: 0.0,
         actions: <Widget>[
           Container(

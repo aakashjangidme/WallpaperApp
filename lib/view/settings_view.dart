@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:wallpaperflutter/view/about.dart';
+import 'package:wallpaperflutter/widget/constants.dart';
 
 import 'language_view.dart';
 
@@ -17,7 +18,10 @@ class _SettingsViewState extends State<SettingsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text(
+          'Settings',
+          style: kAppBarTitleStyle,
+        ),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         brightness: Brightness.light,

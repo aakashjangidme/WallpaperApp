@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -71,7 +72,7 @@ class _ImageViewState extends State<ImageView> {
                             style: TextStyle(
                                 color: Colors.white70,
                                 fontSize: 15,
-                                fontWeight: FontWeight.w500),
+                                fontWeight: FontWeight.w600),
                           ),
                         ),
                       ],

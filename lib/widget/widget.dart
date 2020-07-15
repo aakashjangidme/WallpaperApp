@@ -8,7 +8,7 @@ import 'progress_indicator_circular.dart';
 
 Widget wallPaper(context) {
   return Container(
-//    height: 700,
+    padding: EdgeInsets.only(top: 8),
     child: FutureBuilder(
       future: context,
       builder: (BuildContext context, AsyncSnapshot<PhotoList> snapshot) {
@@ -91,12 +91,18 @@ Widget brandName() {
       Text(
         "Wallpaper",
         style: TextStyle(
-            color: Colors.black87, fontFamily: 'Raleway', fontSize: 24),
+            color: Colors.black87,
+            fontFamily: 'Raleway',
+            fontSize: 24,
+            fontWeight: FontWeight.w800),
       ),
       Text(
         "Store",
         style: TextStyle(
-            color: Colors.purple, fontFamily: 'Raleway', fontSize: 24),
+            color: Colors.purple,
+            fontFamily: 'Raleway',
+            fontSize: 24,
+            fontWeight: FontWeight.w800),
       )
     ],
   );
