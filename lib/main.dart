@@ -9,15 +9,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Wallpaper',
+      title: 'Wallpaper Store',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: Colors.white,
         primarySwatch: Colors.purple,
-
-        // Define the default font family.
-        fontFamily: 'Roboto',
+        fontFamily: 'Raleway',
       ),
       home: HomeView(),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:wallpaperflutter/view/about.dart';
 
 import 'language_view.dart';
 
@@ -45,7 +46,16 @@ class _SettingsViewState extends State<SettingsView> {
             title: 'Misc',
             tiles: [
               SettingsTile(
-                  title: 'Terms of Service', leading: Icon(Icons.description)),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => About(),
+                      ),
+                    );
+                  },
+                  title: 'About',
+                  leading: Icon(Icons.help)), //Todo
               SettingsTile(
                   title: 'Open source licenses',
                   leading: Icon(Icons.collections_bookmark)),

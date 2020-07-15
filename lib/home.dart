@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wallpaperflutter/ad_manager.dart';
 import 'package:wallpaperflutter/data/data.dart';
+import 'package:wallpaperflutter/view/privacy_policy.dart';
 import 'package:wallpaperflutter/view/search_view.dart';
 import 'package:wallpaperflutter/view/settings_view.dart';
 import 'package:wallpaperflutter/widget/categories_tile.dart';
@@ -51,6 +52,8 @@ class _HomeViewState extends State<HomeView> {
       adUnitId: AdManager.bannerAdUnitId,
       size: AdSize.banner,
     );
+
+//    _initAdMob();
     // TODO: Load a Banner Ad
     _loadBannerAd();
   }
@@ -277,7 +280,8 @@ class _HomeViewState extends State<HomeView> {
                 style: TextStyle(fontSize: 18),
               ),
               onTap: () {
-                //TODO
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => PrivacyPolicy()));
               },
             ),
             Divider(

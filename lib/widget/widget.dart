@@ -91,12 +91,12 @@ Widget brandName() {
       Text(
         "Wallpaper",
         style: TextStyle(
-            color: Colors.black87, fontFamily: 'Overpass', fontSize: 24),
+            color: Colors.black87, fontFamily: 'Raleway', fontSize: 24),
       ),
       Text(
         "Store",
         style: TextStyle(
-            color: Colors.deepPurple, fontFamily: 'Overpass', fontSize: 24),
+            color: Colors.purple, fontFamily: 'Raleway', fontSize: 24),
       )
     ],
   );
