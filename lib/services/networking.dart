@@ -22,7 +22,7 @@ Future<PhotoList> getCuratedImages() async {
 Future<PhotoList> getSearchImages(String searchQuery) async {
   print('Calling uri: ');
   final response = await get(
-      'https://api.pexels.com/v1/search?query=$searchQuery&per_page=70&page=1',
+      'https://api.pexels.com/v1/search?query=$searchQuery&per_page=$noOfImageToLoad&page=1',
       headers: {'Authorization': apiKEY});
   if (response.statusCode == 200) {
     return photoListFromJson(response.body);

@@ -35,12 +35,12 @@ Widget wallPaper(context) {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          ImageView(imgPath: data.src.portrait),
+                          ImageView(imgPath: data.src.original),
                     ),
                   );
                 },
                 child: Hero(
-                  tag: data.src.small,
+                  tag: data.src.portrait,
                   child: Container(
                     height: MediaQuery.of(context).size.width * 0.75,
                     width: MediaQuery.of(context).size.width * 0.50,
@@ -48,7 +48,7 @@ Widget wallPaper(context) {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: CachedNetworkImageProvider(
-                          data.src.small,
+                          data.src.portrait,
                         ),
                         fit: BoxFit.cover,
                       ),

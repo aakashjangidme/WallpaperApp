@@ -20,30 +20,30 @@ List<CategoriesModel> getCategories() {
 
   //
   categoriesModel.imgUrl =
-      "https://images.pexels.com/photos/34950/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&w=500";
-  categoriesModel.categoryName = "Nature";
+      "https://images.pexels.com/photos/3230927/pexels-photo-3230927.jpeg?cs=srgb&dl=burj-khalifa-dubai-at-night-3230927.jpg&fm=jpg";
+  categoriesModel.categoryName = "Dark";
   categories.add(categoriesModel);
   categoriesModel = new CategoriesModel();
 
   //
   categoriesModel.imgUrl =
-      "https://images.pexels.com/photos/466685/pexels-photo-466685.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500";
-  categoriesModel.categoryName = "City";
+      "https://images.pexels.com/photos/573294/pexels-photo-573294.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260";
+  categoriesModel.categoryName = "Black & White";
   categories.add(categoriesModel);
   categoriesModel = new CategoriesModel();
 
   //
   categoriesModel.imgUrl =
-      "https://images.pexels.com/photos/1434819/pexels-photo-1434819.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260";
-  categoriesModel.categoryName = "Motivation";
+      "https://images.pexels.com/photos/1393996/pexels-photo-1393996.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+  categoriesModel.categoryName = "Drone";
 
   categories.add(categoriesModel);
   categoriesModel = new CategoriesModel();
 
   //
   categoriesModel.imgUrl =
-      "https://images.pexels.com/photos/2116475/pexels-photo-2116475.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500";
-  categoriesModel.categoryName = "Bikes";
+      "https://images.pexels.com/photos/1331386/pexels-photo-1331386.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+  categoriesModel.categoryName = "Bokehlicious";
   categories.add(categoriesModel);
   categoriesModel = new CategoriesModel();
 

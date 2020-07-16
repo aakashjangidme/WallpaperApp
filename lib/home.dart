@@ -25,6 +25,8 @@ class _HomeViewState extends State<HomeView> {
   List<CategoriesModel> categories = new List();
 
   TextEditingController searchController = new TextEditingController();
+  final scrollController = ScrollController();
+
   BannerAd _bannerAd;
 
   _launchURL(String url) async {
@@ -57,7 +59,6 @@ class _HomeViewState extends State<HomeView> {
     );
 
     _initAdMob();
-    // TODO: Load a Banner Ad
     _loadBannerAd();
   }
 
